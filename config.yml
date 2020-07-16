@@ -7,7 +7,7 @@ tfidf_params:
 lr_params:
    random_state: 0
    solver: 'lbfgs'
-   class_weight: None
+   class_weight: Null
 rf_params:
    n_estimators: 200
    max_depth: 3
