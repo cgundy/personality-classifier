@@ -37,4 +37,5 @@ def predict(text_input: PredictRequest, model_type: ModelType):
 @app.post("/accuracy", response_model=PredictResponse)
 def return_accuracy(model_type: ModelType):
 	print(get_accuracy(str(model_type.data)))
-	return get_accuracy(str(model_type.data))
+	accuracy=get_accuracy(str(model_type.data))
+	return AccuracyResponse(data=accuracy)

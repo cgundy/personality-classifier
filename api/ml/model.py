@@ -69,8 +69,7 @@ class Model:
 		elif self.model_type == 'MultinomialNB':
 			model = MultinomialNB()
 		self._model = model
-		self._calc_model_accuracy(X, y)
-
+		
 	def _calc_model_accuracy(self, X: np.array, y: str) -> float:
 		self._accuracy = self._model.score(X,y)
 
@@ -82,8 +81,7 @@ class Model:
 			raise TypeError("The tfidf vector is not trained yet, use .fit_tfidf() before saving")
 		if self._model is not None and self._accuracy is not None:
 			with open(self._model_path, 'wb') as infile:
-				pickle.dump(self._model, infile)
-				pickle.dump(self._accuracy, infile)
+				pickle.dump([self._model, self._accuracy], infile)
 		else:
 			raise TypeError("The model is not trained yet, use .train() before saving")
 
@@ -94,7 +92,9 @@ class Model:
 			raise TypeError(
 			"The tfidf vector is not trained yet, use .fit_tfidf() before loading")
 		try:
-			self._model, self._accuracy = np.load(self._model_path, allow_pickle=True)
+			self._model = np.load(self._model_path, allow_pickle=True)[0]
+			self._accuracy = np.load(self._model_path, allow_pickle=True)[1]
+
 		except:
 			raise TypeError(f"The model is not trained yet, use .train() before loading. {self._model_path}")
 
@@ -111,6 +111,7 @@ def retrain(model_type: str) -> None:
 	X = model.fit_tfidf(text)	
 	y = label
 	model.train(X, y)
+	model._calc_model_accuracy(X, y)
 	model.save()
 
 def score(input: List[str], model_type: str) -> str:
@@ -123,6 +124,5 @@ def get_accuracy(model_type: str) -> float:
 	model = Model(model_type)
 	model.load()
 	return model._accuracy
-	
 
-
+#retrain('LogisticRegression')	

@@ -8,7 +8,7 @@ lr_params:
    random_state: 0
    solver: 'lbfgs'
    class_weight: Null
-   max_iter: 100
+   max_iter: 500
 rf_params:
    n_estimators: 200
    max_depth: 3

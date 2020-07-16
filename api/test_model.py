@@ -27,11 +27,11 @@ def test_tifdf():
 	assert isinstance(model._tfidf, TfidfVectorizer)
 
 def test_score():
-	result = score(['I am an introvert who enjoys coding and rock climbing'], 'RandomForest')
+	result = score(['I am an introvert who enjoys coding and rock climbing'], model_type)
 	assert result.lower() in config['types']
 
 def test_accuracy():
-	accuracy = get_accuracy('LogisticRegression')
+	accuracy = get_accuracy(model_type)
 	print(accuracy)
 	assert isinstance(accuracy, float)
 
