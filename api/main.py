@@ -3,14 +3,13 @@ from typing import List
 from fastapi import FastAPI # todo: look into Depends
 from pydantic import BaseModel, validator
 
-from .ml.model import score
+from .ml.model import score, get_accuracy
 
 # Todo: move to config
 valid_models = ['LogisticRegression']
 
 class PredictRequest(BaseModel):
     data: List[str]
-
 
 class PredictResponse(BaseModel):
     data: str
@@ -24,10 +23,18 @@ class ModelType(BaseModel):
             raise ValueError(f"Model type must be one of the following: {valid_models}")
         return v
 
+class AccuracyResponse(BaseModel):
+	data: float
+
 app = FastAPI()
 
 
 @app.post("/predict", response_model=PredictResponse)
-def predict(input: PredictRequest, model_type: ModelType='LogisticRegression'):
-    y_pred = score(input.data, str(model_type.data))
+def predict(text_input: PredictRequest, model_type: ModelType):
+    y_pred = score(text_input.data, str(model_type.data))
     return PredictResponse(data=y_pred)
+
+@app.post("/accuracy", response_model=PredictResponse)
+def return_accuracy(model_type: ModelType):
+	print(get_accuracy(str(model_type.data)))
+	return get_accuracy(str(model_type.data))

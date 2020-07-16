@@ -1,4 +1,4 @@
-from ml.model import *
+from .ml.model import *
 import pytest
 from pathlib import Path
 
@@ -6,10 +6,10 @@ from pathlib import Path
 import pandas as pd
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
-data_file = 'data/mbti_1.csv'
+data_file = 'api/data/mbti_1.csv'
 raw_data = pd.read_csv(data_file)
 
-model_type = 'RandomForest'
+model_type = 'LogisticRegression'
 
 with open('config.yml') as c:
     config = yaml.load(c, Loader=yaml.FullLoader)
@@ -29,6 +29,12 @@ def test_tifdf():
 def test_score():
 	result = score(['I am an introvert who enjoys coding and rock climbing'], 'RandomForest')
 	assert result.lower() in config['types']
+
+def test_accuracy():
+	accuracy = get_accuracy('LogisticRegression')
+	print(accuracy)
+	assert isinstance(accuracy, float)
+
 
 #retrain('RandomForest')
 

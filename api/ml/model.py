@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import pickle
 import mypy
+import logging
 from typing import List, Set, Dict, Tuple, Optional, Union
 from pathlib import Path
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -58,18 +59,19 @@ class Model:
 		return features
 
 	def train(self, X: np.array, y: str) -> None:
+		model = None
 		if self.model_type == 'LogisticRegression':
 	   		model = LogisticRegression(**config['lr_params']).fit(X, y)
 		elif self.model_type == 'RandomForest':
 			model = RandomForestClassifier(**config['rf_params']).fit(X, y)
 		elif self.model_type == 'SVC':
-			model = SVC(**config['svc_params'])
+			model = SVC(**config['svc_params']).fit(X, y)
 		elif self.model_type == 'MultinomialNB':
 			model = MultinomialNB()
 		self._model = model
 		self._calc_model_accuracy(X, y)
 
-	def _calc_model_accuracy(self, X: np.array, y: str):
+	def _calc_model_accuracy(self, X: np.array, y: str) -> float:
 		self._accuracy = self._model.score(X,y)
 
 	def save(self):
@@ -92,8 +94,7 @@ class Model:
 			raise TypeError(
 			"The tfidf vector is not trained yet, use .fit_tfidf() before loading")
 		try:
-			self._model = np.load(self._model_path, allow_pickle=True)
-			self._accuracy =  np.load(self._model_path, allow_pickle=True)
+			self._model, self._accuracy = np.load(self._model_path, allow_pickle=True)
 		except:
 			raise TypeError(f"The model is not trained yet, use .train() before loading. {self._model_path}")
 
@@ -102,7 +103,7 @@ class Model:
 		prediction = self._model.predict(features)
 		return prediction[0]
 
-
+#Todo: add logging
 def retrain(model_type: str) -> None:
 	model = Model(model_type)
 	raw_data = pd.read_csv(data_file)
@@ -117,4 +118,11 @@ def score(input: List[str], model_type: str) -> str:
 	model.load()
 	y_pred = model.predict(input)
 	return y_pred
+
+def get_accuracy(model_type: str) -> float:
+	model = Model(model_type)
+	model.load()
+	return model._accuracy
+	
+
 
