@@ -13,9 +13,12 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
 from sklearn.naive_bayes import MultinomialNB
+from sklearn.model_selection import train_test_split
 
 with open('config.yml') as c:
     config = yaml.load(c, Loader=yaml.FullLoader)
+
+logger = logging.getLogger('model')
 
 data_file = Path(__file__).parent.parent / 'data/mbti_1.csv'
 model_dir = Path(__file__).parent.parent / 'ml/models' 
@@ -60,18 +63,17 @@ class Model:
 
 	def train(self, X: np.array, y: str) -> None:
 		model = None
+		X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state = 28)
 		if self.model_type == 'LogisticRegression':
-	   		model = LogisticRegression(**config['lr_params']).fit(X, y)
+	   		model = LogisticRegression(**config['lr_params']).fit(X_train, y_train)
 		elif self.model_type == 'RandomForest':
-			model = RandomForestClassifier(**config['rf_params']).fit(X, y)
+			model = RandomForestClassifier(**config['rf_params']).fit(X_train, y_train)
 		elif self.model_type == 'SVC':
-			model = SVC(**config['svc_params']).fit(X, y)
+			model = SVC(**config['svc_params']).fit(X_train, y_train)
 		elif self.model_type == 'MultinomialNB':
 			model = MultinomialNB()
-		self._model = model
-		
-	def _calc_model_accuracy(self, X: np.array, y: str) -> float:
-		self._accuracy = self._model.score(X,y)
+		self._model = model	
+		self._accuracy = self._model.score(X_test,y_test)
 
 	def save(self):
 		if self._tfidf is not None:
@@ -105,13 +107,18 @@ class Model:
 
 #Todo: add logging
 def retrain(model_type: str) -> None:
+	logger.info("""Training {model_type} model.""")
 	model = Model(model_type)
 	raw_data = pd.read_csv(data_file)
+	logger.info("""Prepping data.""")
 	label, text = prep_data(raw_data)
+	logger.info("Fitting tfidf vectorizor")
 	X = model.fit_tfidf(text)	
 	y = label
+	logger.info("Training data")
 	model.train(X, y)
 	model._calc_model_accuracy(X, y)
+	logger.info("Saving model")
 	model.save()
 
 def score(input: List[str], model_type: str) -> str:
@@ -125,4 +132,4 @@ def get_accuracy(model_type: str) -> float:
 	model.load()
 	return model._accuracy
 
-#retrain('LogisticRegression')	
+

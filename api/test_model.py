@@ -36,5 +36,4 @@ def test_accuracy():
 	assert isinstance(accuracy, float)
 
 
-#retrain('RandomForest')
 
