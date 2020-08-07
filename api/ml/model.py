@@ -1,12 +1,9 @@
-import os
-import yaml
 import numpy as np
 import pandas as pd
 import pickle
 import mypy
 import logging
 from typing import List, Set, Dict, Tuple, Optional, Union, Any
-from pathlib import Path
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_extraction import text
 from sklearn.linear_model import LogisticRegression
@@ -14,6 +11,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.model_selection import train_test_split
+import utilities as utils
 
 
 class TfidfFit:
@@ -21,7 +19,7 @@ class TfidfFit:
 		self._tfidf_params = tfidf_params
 		self._my_stop_words = my_stop_words
 		self._tfidf: TfidfVectorizer
-		self._filepath = utils.file_handler()
+		self._filepath = utils.file_handler('models','tfidf')
 
 	#Todo: how to ensure that this is not run if tdifdf exists
 	def train_tfidf(self):
@@ -65,8 +63,8 @@ class Model:
 		self._model: Union[LogisticRegression, RandomForestClassifier,
 		SVC, MultinomialNB]
 		self._accuracy: float
-		self._model_path = utils.file_handler()
-		self._accuracy_path = utils.file_handler()
+		self._model_path = utils.file_handler('models', model_type)
+		self._accuracy_path = utils.file_handler('accuracy',model_type)
 
 	def train(self, X: np.array, y: str) -> None:
 		model = None
@@ -89,11 +87,12 @@ class Model:
 		else:
 			raise TypeError("The model is not trained yet, use .train() before saving")
 
-	def load(self, object):
+	def load(self, request):
 		try:
-			self._model = np.load(self._model_path, allow_pickle=True)
-			self._accuracy = np.load(self._accuracy_path, allow_pickle=True)
-
+			if request=='model':
+				self._model = np.load(self._model_path, allow_pickle=True)
+			elif request == 'accuracy':
+				self._accuracy = np.load(self._accuracy_path, allow_pickle=True)
 		except:
 			raise TypeError(f"The model is not trained yet, use .train() before loading. {self._model_path}")
 
