@@ -1,8 +1,6 @@
 from typing import List
-
 from fastapi import FastAPI # todo: look into Depends
 from pydantic import BaseModel, validator
-
 from .ml.model import score, get_accuracy
 
 # Todo: move to config

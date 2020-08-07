@@ -17,3 +17,4 @@ svc_params:
    C: 1
    gamma: 1
    kernel: 'rbf'
+valid_models: ['LogisticRegression', 'RandomForest']
