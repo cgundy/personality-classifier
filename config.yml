@@ -21,17 +21,15 @@ model_parameters:
       kernel: 'rbf'
 file_paths:
    data:
-      'data/mbti.csv'
-   models:
+      'data/mbti_1.csv'
+   pipeline:
       LogisticRegression:
-         'LogisticRegression.pkl'
+         'models/LogisticRegression.pkl'
       RandomForest:
-         'RandomForest.pkl'
-      tfidf:
-         'tfidf_vec.pkl'
+         'models/RandomForest.pkl'
    accuracy:
       LogisticRegression:
-         'LogisticRegression_accuracy.pkl'
+         'models/lr_accuracy.pkl'
       RandomForest:
-         'RandomForest_accuracy.pkl'
+         'models/rf_accuracy.pkl'
 
