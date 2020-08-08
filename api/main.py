@@ -5,7 +5,6 @@ from .ml.model_pipeline import predict, get_accuracy
 from .ml.utilities import get_config
 
 
-# Todo: move to config
 config = get_config()
 valid_models = config['valid_models']
 

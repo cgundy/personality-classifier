@@ -58,6 +58,4 @@ def predict(text_input: List[str], model_type: str) -> str:
 def get_accuracy(model_type: str) -> float:
 	return load('accuracy', model_type)
 
-#train('RandomForest')
-#print(predict(['hello my name is Carly'],'RandomForest'))
-#print(get_accuracy('RandomForest'))
+
