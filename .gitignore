@@ -6,3 +6,5 @@ models/
 *.pkl
 .DS_store
 *.ini
+.mypy_cache
+.pytest_cache

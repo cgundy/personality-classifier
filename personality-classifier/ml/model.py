@@ -15,7 +15,8 @@ class MyClassifier(BaseEstimator):
 	):
 		"""
 		A Custom BaseEstimator that can switch between classifiers.
-		:param estimator: sklearn object - The classifier
+		:config: config file where model parameters are stored
+		:classifier_type: classifier type to use
 		""" 
 		self.config = config
 		if classifier_type == 'LogisticRegression':

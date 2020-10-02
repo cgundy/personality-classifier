@@ -46,13 +46,6 @@ def train(model_type: str) -> None:
 
 def predict(text_input: List[str], model_type: str) -> str:
 	pipe = load('pipeline', model_type)
-
-	#pipe = Pipeline([
-	#	('tfidf', TfidfVectorizer(stop_words=text.ENGLISH_STOP_WORDS.union(config['my_stop_words']), 
-	#									**config['model_parameters']['tfidf'], vocabulary=tfidf.vocabulary_))])
-
-#	pipe.fit_transform([text_input])
-#	pipe.steps.append(('clf', model))
 	return pipe.predict(text_input)
 
 def get_accuracy(model_type: str) -> float:
