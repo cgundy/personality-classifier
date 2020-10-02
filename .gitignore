@@ -8,3 +8,4 @@ models/
 *.ini
 .mypy_cache
 .pytest_cache
+*.egg-info/

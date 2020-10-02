@@ -6,7 +6,7 @@ from .ml.utilities import get_config
 
 
 config = get_config()
-valid_models = config['valid_models']
+valid_models = config["valid_models"]
 
 
 class PredictRequest(BaseModel):
@@ -24,8 +24,7 @@ class ModelType(BaseModel):
     @staticmethod
     def check_model_type(cls, v):
         if v not in valid_models:
-            raise ValueError(
-                f"Model type must be one of the following: {valid_models}")
+            raise ValueError(f"Model type must be one of the following: {valid_models}")
         return v
 
 
