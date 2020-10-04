@@ -5,10 +5,10 @@ COPY requirements.txt requirements.txt
 
 RUN pip3 install -r requirements.txt
 
-COPY ./api ./api
+COPY ./personality_classifier ./personality_classifier
 COPY config.yml config.yml
 
 EXPOSE 8000
 
 ENTRYPOINT ["uvicorn"]
-CMD ["personality-classifier.app:app", "--host", "0.0.0.0"]
+CMD ["personality_classifier.app:app", "--host", "0.0.0.0"]

@@ -1,5 +1,5 @@
 from typing import List
-from fastapi import FastAPI  # todo: look into Depends
+from fastapi import FastAPI
 from pydantic import BaseModel, validator
 from .ml.model_pipeline import predict, get_accuracy
 from .ml.utilities import get_config
@@ -21,7 +21,6 @@ class ModelType(BaseModel):
     data: str
 
     @validator("data")
-    @staticmethod
     def check_model_type(cls, v):
         if v not in valid_models:
             raise ValueError(f"Model type must be one of the following: {valid_models}")
@@ -41,7 +40,7 @@ def request_prediction(text_input: PredictRequest, model_type: ModelType):
     return PredictResponse(data=y_pred)
 
 
-@app.post("/accuracy", response_model=AccuracyResponse)
-def request_accuracy(model_type: ModelType):
-    accuracy = get_accuracy(str(model_type.data))
+@app.get("/accuracy/{model_type}", response_model=AccuracyResponse)
+def request_accuracy(model_type: str):
+    accuracy = get_accuracy(str(model_type))
     return AccuracyResponse(data=accuracy)
