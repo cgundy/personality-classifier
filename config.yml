@@ -1,35 +1,57 @@
-types : ['infj', 'infp', 'intj', 'intp', 'istj', 'istp', 'isfp','isfj', 'enfj', 'enfp','infj', 'infp', 'intj', 'intp', 'istj', 'istp', 'isfp','isfj', 'enfj', 'enfp', 'entj', 'entp', 'estj', 'estp', 'esfp', 'esfj']
-my_stop_words : ['ni', 'ti', 'ne', 'te', 'se']
-valid_models: ['LogisticRegression', 'RandomForest']
+types:
+   [
+      "infj",
+      "infp",
+      "intj",
+      "intp",
+      "istj",
+      "istp",
+      "isfp",
+      "isfj",
+      "enfj",
+      "enfp",
+      "infj",
+      "infp",
+      "intj",
+      "intp",
+      "istj",
+      "istp",
+      "isfp",
+      "isfj",
+      "enfj",
+      "enfp",
+      "entj",
+      "entp",
+      "estj",
+      "estp",
+      "esfp",
+      "esfj",
+   ]
+my_stop_words: ["ni", "ti", "ne", "te", "se"]
+valid_models: ["LogisticRegression", "RandomForest", "SVC"]
 model_parameters:
    tfidf:
       sublinear_tf: True
       min_df: 10
-      ngram_range: [1,2]
+      ngram_range: [1, 2]
    LogisticRegression:
       random_state: 0
-      solver: 'lbfgs'
+      solver: "lbfgs"
       class_weight: Null
       max_iter: 500
    RandomForest:
       n_estimators: 200
       max_depth: 3
       random_state: 0
-   svc:
+   SVC:
       C: 1
       gamma: 1
-      kernel: 'rbf'
+      kernel: "rbf"
 file_paths:
-   data:
-      'data/mbti_1.csv'
+   data: "data/mbti_1.csv"
    pipeline:
-      LogisticRegression:
-         'models/LogisticRegression.pkl'
-      RandomForest:
-         'models/RandomForest.pkl'
+      LogisticRegression: "models/LogisticRegression.pkl"
+      RandomForest: "models/RandomForest.pkl"
    accuracy:
-      LogisticRegression:
-         'models/lr_accuracy.pkl'
-      RandomForest:
-         'models/rf_accuracy.pkl'
-
+      LogisticRegression: "models/lr_accuracy.pkl"
+      RandomForest: "models/rf_accuracy.pkl"
