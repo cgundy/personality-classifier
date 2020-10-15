@@ -52,6 +52,8 @@ file_paths:
    pipeline:
       LogisticRegression: "models/LogisticRegression.pkl"
       RandomForest: "models/RandomForest.pkl"
+      SVC: "models/SVC.pkl"
    accuracy:
       LogisticRegression: "models/lr_accuracy.pkl"
       RandomForest: "models/rf_accuracy.pkl"
+      SVC: "models/svc_accuracy.pkl"
