@@ -26,9 +26,10 @@ def file_handler(object_type: str, model_type: Optional[str] = None) -> str:
     parent_file = Path(__file__).parent.parent / "ml"
     if model_type:
         extension = config["file_paths"][object_type][model_type]
+        file_path = parent_file / extension
     else:
-        extension = config["file_paths"][object_type]
-    return parent_file / extension
+        file_path = config["file_paths"][object_type]
+    return file_path
 
 
 def save(object, object_type: str, model_type: Optional[str] = None) -> None:

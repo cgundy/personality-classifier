@@ -2,6 +2,24 @@ version: "3"
 
 services:
   personality:
-    build: ./
+    container_name: personality
+    build:
+      context: ./
+      dockerfile: Dockerfile_personality
     ports:
       - 8000:8000
+    networks:
+      - network1
+  dash_app:
+    container_name: dash_app
+    build:
+      context: ./
+      dockerfile: Dockerfile_dash_app
+    ports:
+      - 8050:8050
+    networks:
+      - network1
+
+networks:
+  network1:
+    name: network1

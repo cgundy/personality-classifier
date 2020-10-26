@@ -2,7 +2,7 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
-from personality_classifier.ml.model_pipeline import get_config
+from personality_classifier.ml.utilities import get_config
 import requests
 
 config = get_config()
@@ -35,9 +35,11 @@ def update_output(*args):
     # avoid calling the API if the state is "None"
     if not states["model-selection.value"]:
         return
-    r = requests.get(f"http://0.0.0.0:8000/accuracy/{states['model-selection.value']}")
+    r = requests.get(
+        f"http://personality:8000/accuracy/{states['model-selection.value']}"
+    )
     return r.json()["data"]
 
 
 if __name__ == "__main__":
-    app.run_server(debug=True, host="0.0.0.0")
+    app.run_server(debug=True, host="0.0.0.0", port=8050)
