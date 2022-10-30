@@ -53,7 +53,9 @@ def get_accuracy(*args):
     # avoid calling the API if the state is "None"
     if not states["model-selection.value"]:
         return
-    r = requests.get(f"http://0.0.0.0:8000/accuracy/{states['model-selection.value']}")
+    r = requests.get(
+        f"http://{container_name}:8000/accuracy/{states['model-selection.value']}"
+    )
     return r.json()["data"]
 
 
@@ -67,7 +69,7 @@ def get_prediction(*args):
     # avoid calling the API if the state is "None"
     if not states["model-selection.value"]:
         return
-    url = "http://0.0.0.0:8000/predict"
+    url = f"http://{container_name}:8000/predict"
     headers = {
         "accept": "application/json",
         "Content-Type": "application/json",
@@ -82,4 +84,4 @@ def get_prediction(*args):
 
 
 if __name__ == "__main__":
-    app.run_server(debug=True, host="0.0.0.0", port=8051)
+    app.run_server(debug=True, host="0.0.0.0", port=8050)
