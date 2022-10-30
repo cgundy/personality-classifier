@@ -1,0 +1,23 @@
+[[source]]
+
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+
+click = "*"
+fastapi = "*"
+sklearn = "*"
+uvicorn = "*"
+black = "*"
+bs4 = "*"
+pandas = "*"
+pydantic = "*"
+numpy = "*"
+mypy = "*"
+pytest = "*"
+PyYAML = "*"
+
+[requires]
+python_version = "3.8"
